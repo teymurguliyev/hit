@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Target Click Demo</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <audio id="bgMusic" src="music.mp3" loop></audio>
+
+  <div class="game">
+    <div id="gameContent" class="hidden-before-start">
+      <div class="topbar">
+        <div class="titlebox">
+          <h1>Find the Terrorist</h1>
+          <p class="subtitle">Click only on the target. A wrong click ends the game.</p>
+        </div>
+
+        <div class="controls">
+          <div class="counter">
+            <div class="counter-label">Score</div>
+            <div class="counter-value" id="score">0</div>
+          </div>
+
+          <div class="counter">
+            <div class="counter-label">Remaining Ammunition</div>
+            <div class="counter-value" id="ammo">90,000,000</div>
+          </div>
+
+          <div class="counter">
+            <div class="counter-label">Potential Targets</div>
+            <div class="counter-value" id="targets">90,000,000</div>
+          </div>
+
+          <button id="restartBtn" type="button">Restart</button>
+        </div>
+      </div>
+
+      <div class="grid" id="grid" aria-label="Game field"></div>
+
+      <div class="legend">
+        Terrorist changes position instantly after every correct click.
+        The board is always full: he swaps places with a random civilian.
+      </div>
+    </div>
+
+    <div class="overlay show" id="startOverlay" aria-hidden="false">
+      <div class="box">
+        <div class="start-title">Mission Briefing</div>
+        <div class="start-text">
+          Your mission is to eliminate the most dangerous terrorist leader.
+          Stay alert and do not under any circumstances hit civilians.
+        </div>
+        <button id="startBtn" type="button">Start</button>
+      </div>
+    </div>
+
+    <div class="overlay" id="midOverlay" aria-hidden="true">
+      <div class="box">
+        <h2>Target Eliminated</h2>
+        <p>
+          The main terrorist leader has been eliminated, but it appears our enemies
+          have already chosen a new leader.
+        </p>
+        <p>
+          Do not lose heart — sooner or later our enemies will run out.
+        </p>
+        <button id="continueBtn" type="button">Continue</button>
+      </div>
+    </div>
+
+    <div class="overlay" id="gameOverOverlay" aria-hidden="true">
+      <div class="box">
+        <h2>Game Over</h2>
+        <p>You hit a civilian. You have been discharged from the Army.</p>
+        <p class="danger-text" id="finalScore">Final score: 0</p>
+        <p id="finalAmmo">Remaining ammunition: 90,000,000</p>
+        <p id="finalTargets">Potential targets left: 90,000,000</p>
+        <button id="overlayRestartBtn" type="button">Play Again</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
