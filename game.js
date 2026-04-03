@@ -1,7 +1,8 @@
 const IMAGES = {
   boy: "./assets/img/Boy.png",
   girl: "./assets/img/Girl.png",
-  terror: "./assets/img/Terror.png"
+  terror: "./assets/img/Terror.png",
+  opp_leader: "./assets/img/opp_leader.png"
 };
 
 const START_AMMO = 90000000;
@@ -128,6 +129,7 @@ function handleCellClick(index, cellEl) {
     moveTerror(board);
 
     setTimeout(() => {
+      board = buildInitialBoard();
       renderBoard();
       showMidMessageIfNeeded();
     }, 55);

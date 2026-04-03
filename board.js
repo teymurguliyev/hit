@@ -8,12 +8,22 @@ function buildInitialBoard() {
   ];
 
   const terrorIndex = randomInt(16);
+
+  let leaderIndex = -1;
+  if (score >= 10) {
+    do {
+      leaderIndex = randomInt(16);
+    } while (leaderIndex === terrorIndex);
+  }
+
   const newBoard = [];
   let civilianCursor = 0;
 
   for (let i = 0; i < 16; i++) {
     if (i === terrorIndex) {
       newBoard.push("terror");
+    } else if (i === leaderIndex) {
+      newBoard.push("opp_leader");
     } else {
       newBoard.push(civilians[civilianCursor]);
       civilianCursor++;
