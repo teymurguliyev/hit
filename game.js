@@ -1,8 +1,8 @@
 const IMAGES = {
-  boy: "./assets/img/Boy.png",
-  girl: "./assets/img/Girl.png",
-  terror: "./assets/img/Terror.png",
-  opp_leader: "./assets/img/opp_leader.png"
+  boy: "./assets/img/Boy.webp",
+  girl: "./assets/img/Girl.webp",
+  terror: "./assets/img/Terror.webp",
+  opp_leader: "./assets/img/opp_leader.webp"
 };
 
 const START_AMMO = 90000000;
