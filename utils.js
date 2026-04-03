@@ -13,3 +13,13 @@ function createAudio(src, { loop = false, volume = 1 } = {}) {
   audio.volume = volume;
   return audio;
 }
+
+function showOverlay(el) {
+  el.classList.add("show");
+  el.setAttribute("aria-hidden", "false");
+}
+
+function hideOverlay(el) {
+  el.classList.remove("show");
+  el.setAttribute("aria-hidden", "true");
+}

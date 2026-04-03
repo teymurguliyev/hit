@@ -79,16 +79,14 @@ function showMidMessageIfNeeded() {
   if (score === 1 && !firstKillMessageShown) {
     firstKillMessageShown = true;
     gamePaused = true;
-    midOverlay.classList.add("show");
-    midOverlay.setAttribute("aria-hidden", "false");
+    showOverlay(midOverlay);
     renderBoard();
   }
 }
 
 function closeMidMessage() {
   gamePaused = false;
-  midOverlay.classList.remove("show");
-  midOverlay.setAttribute("aria-hidden", "true");
+  hideOverlay(midOverlay);
   renderBoard();
 }
 
@@ -97,8 +95,7 @@ function endGame() {
   gamePaused = true;
 
   updateCounters();
-  gameOverOverlay.classList.add("show");
-  gameOverOverlay.setAttribute("aria-hidden", "false");
+  showOverlay(gameOverOverlay);
   renderBoard();
 
   playFailMusic();
@@ -157,10 +154,8 @@ function resetGameState() {
   firstKillMessageShown = false;
   gamePaused = false;
 
-  midOverlay.classList.remove("show");
-  midOverlay.setAttribute("aria-hidden", "true");
-  gameOverOverlay.classList.remove("show");
-  gameOverOverlay.setAttribute("aria-hidden", "true");
+  hideOverlay(midOverlay);
+  hideOverlay(gameOverOverlay);
 
   updateCounters();
   renderBoard();
@@ -171,8 +166,7 @@ function startGame() {
 
   gameStarted = true;
   gameContent.classList.remove("hidden-before-start");
-  startOverlay.classList.remove("show");
-  startOverlay.setAttribute("aria-hidden", "true");
+  hideOverlay(startOverlay);
 
   resetGameState();
 }
