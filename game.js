@@ -44,107 +44,6 @@ const failMusic = createAudio("./assets/music/fail_music.mp3", {
   volume: 0.4,
 });
 
-function randomInt(max) {
-  return Math.floor(Math.random() * max);
-}
-
-function createAudio(src, { loop = false, volume = 1 } = {}) {
-  const audio = new Audio(src);
-  audio.loop = loop;
-  audio.preload = "auto";
-  audio.volume = volume;
-  return audio;
-}
-
-function formatNumber(value) {
-  return value.toLocaleString("en-US");
-}
-
-function initAudio() {
-  if (!audioCtx) {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  }
-
-  if (audioCtx.state === "suspended") {
-    audioCtx.resume();
-  }
-
-  bgMusic.load();
-  failMusic.load();
-}
-
-function playTone(freq, duration, type, volume) {
-  if (!audioCtx) return;
-
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-
-  osc.type = type;
-  osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-
-  gain.gain.setValueAtTime(volume, audioCtx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-
-  osc.connect(gain);
-  gain.connect(audioCtx.destination);
-
-  osc.start();
-  osc.stop(audioCtx.currentTime + duration);
-}
-
-function playHitSound() {
-  playTone(880, 0.08, "square", 0.06);
-  setTimeout(() => playTone(1180, 0.06, "square", 0.04), 40);
-}
-
-function playMissSound() {
-  playTone(220, 0.18, "sawtooth", 0.08);
-  setTimeout(() => playTone(140, 0.24, "sawtooth", 0.06), 60);
-}
-
-function startMusic() {
-  failMusic.pause();
-  failMusic.currentTime = 0;
-
-  bgMusic.pause();
-  bgMusic.currentTime = 0;
-  bgMusic.play().catch((err) => console.log("bgMusic play error:", err));
-}
-
-function playFailMusic() {
-  bgMusic.pause();
-  bgMusic.currentTime = 0;
-
-  failMusic.pause();
-  failMusic.currentTime = 0;
-  failMusic.play().catch((err) => console.log("failMusic play error:", err));
-}
-
-function buildInitialBoard() {
-  const girlsCount = Math.random() < 0.5 ? 7 : 8;
-  const boysCount = 15 - girlsCount;
-
-  const civilians = [
-    ...Array(boysCount).fill("boy"),
-    ...Array(girlsCount).fill("girl")
-  ];
-
-  const terrorIndex = randomInt(16);
-  const newBoard = [];
-  let civilianCursor = 0;
-
-  for (let i = 0; i < 16; i++) {
-    if (i === terrorIndex) {
-      newBoard.push("terror");
-    } else {
-      newBoard.push(civilians[civilianCursor]);
-      civilianCursor++;
-    }
-  }
-
-  return newBoard;
-}
-
 function updateCounters() {
   scoreEl.textContent = formatNumber(score);
   ammoEl.textContent = formatNumber(ammunition);
@@ -174,24 +73,6 @@ function renderBoard() {
     button.addEventListener("click", () => handleCellClick(index, button));
     grid.appendChild(button);
   });
-}
-
-function getTerrorIndex() {
-  return board.indexOf("terror");
-}
-
-function moveTerror() {
-  const currentIndex = getTerrorIndex();
-  const possibleTargets = [];
-
-  for (let i = 0; i < board.length; i++) {
-    if (i !== currentIndex) {
-      possibleTargets.push(i);
-    }
-  }
-
-  const targetIndex = possibleTargets[randomInt(possibleTargets.length)];
-  [board[currentIndex], board[targetIndex]] = [board[targetIndex], board[currentIndex]];
 }
 
 function showMidMessageIfNeeded() {
@@ -247,7 +128,7 @@ function handleCellClick(index, cellEl) {
     updateCounters();
     playHitSound();
     cellEl.classList.add("hit");
-    moveTerror();
+    moveTerror(board);
 
     setTimeout(() => {
       renderBoard();
