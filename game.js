@@ -15,6 +15,7 @@ const targetsEl = document.getElementById("targets");
 const finalScoreEl = document.getElementById("finalScore");
 const finalAmmoEl = document.getElementById("finalAmmo");
 const finalTargetsEl = document.getElementById("finalTargets");
+const gameOverMessageEl = document.getElementById("gameOverMessage");
 
 const restartBtn = document.getElementById("restartBtn");
 const overlayRestartBtn = document.getElementById("overlayRestartBtn");
@@ -91,9 +92,10 @@ function closeMidMessage() {
   renderBoard();
 }
 
-function endGame() {
+function endGame(message = "You hit a civilian. You have been discharged from the Army.") {
   gameOver = true;
   gamePaused = true;
+  gameOverMessageEl.innerHTML = message;
 
   updateCounters();
   showOverlay(gameOverOverlay);
@@ -133,6 +135,12 @@ function handleCellClick(index, cellEl) {
       renderBoard();
       showMidMessageIfNeeded();
     }, 55);
+  }
+  else if (clickedType === "opp_leader") {
+    updateCounters();
+    playMissSound();
+    endGame(`That was not a terrorist.<br> You just eliminated a potential leader of the moderate opposition.<br><br> Congratulations.<br> You are now discharged from the army.`);
+
   } else {
     updateCounters();
     playMissSound();
